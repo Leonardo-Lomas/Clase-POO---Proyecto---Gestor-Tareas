@@ -4,7 +4,7 @@
 * **Sistema de alertas:** Implementar una funcionalidad de recordatorios en forma de notificaciones para garantizar el cumplimiento de los plazos.
 
 # Arquitectura del Sistema
-El sistema cuenta con dos super clases: **Tarea** y **Proyecto**. La super clase **Tarea** cuenta con los atributos y metodos basicos para una tarea, y las clases **TareaSimple**
+El sistema tiene una super clase llamada **Tarea** y que cuenta con los atributos y metodos basicos para una tarea, y las clases **TareaSimple**
 y **TareaProyecto** heredan de esa superclase
 
 La clase **Proyecto** cuenta con una relacion de integracion con la clase **TareaProyecto**, ya que uno de sus atributos es una lista de objetos de tipo **TareaProyecto**
