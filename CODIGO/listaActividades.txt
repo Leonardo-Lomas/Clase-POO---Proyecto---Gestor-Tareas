@@ -1,0 +1,6 @@
+Tarea;descripcion;0;2026-05-05;15;45;1
+Tarea1;descripcion1;0;2026-05-05;15;45;1
+Tarea2;descripcion2;1;2026-05-06;15;45;2
+Tarea3;descripcion3;1;2026-05-07;15;45;2
+Tarea4;descripcion4;1;2026-05-08;15;45;3
+Tarea5;descripcion5;0;2026-05-09;15;45;3
