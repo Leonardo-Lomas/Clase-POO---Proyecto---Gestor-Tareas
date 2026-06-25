@@ -8,13 +8,14 @@ import java.lang.Exception.*;
 public class ControladorArchivos {
   //atributos veremos si hay alguno por definir.
   private int iterador = 0;
-  
+  private String archivoMaterias = "listaMaterias.txt";
+  private String archivoTareas = "listaActividades.txt";
+  private String archivoProyectos = "listaProyectos.txt";
   //metodos
   public ArrayList<Materia> leerMaterias(){
     ArrayList<Materia> listaMaterias = new ArrayList<>();
     try {
-      String nombreArchivo = "listaMaterias.txt";
-      Path path = FileSystems.getDefault().getPath(nombreArchivo);
+      Path path = FileSystems.getDefault().getPath(this.archivoMaterias);
       BufferedReader br = Files.newBufferedReader(path);
       String linea;
       while ((linea = br.readLine()) != null){
