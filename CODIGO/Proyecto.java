@@ -22,6 +22,10 @@ public class Proyecto extends Actividad implements Notificar,GestionActividad{
         return calificacion;
     }
 
+    public ArrayList<Actividad> getListaActividades(){
+        return listaActividades;
+    }
+
     // Metodos de "GestionActividad"
     @Override
     public void eliminarActividad(){
@@ -31,8 +35,6 @@ public class Proyecto extends Actividad implements Notificar,GestionActividad{
 
     @Override
     public void agregarActividad(){
-
-
     }
 
     // Metodo de Notificar
