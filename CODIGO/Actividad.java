@@ -54,4 +54,8 @@ public abstract class Actividad {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public boolean getEstado(){
+        return estado;
+    }
 }
