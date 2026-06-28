@@ -9,6 +9,17 @@ public class Menu {
   private ArrayList<Materia> listaMaterias;
   private ControladorArchivos controladorArchivos;
   //metodos...
+  
+  /*------------------------------------------------
+  Este constructor es solamente para hardcodear Materias
+  y actividades, solo esta aqui para hacer pruebas, y sera
+  eliminado despues
+  --------------------------------------------------- */
+  public Menu(int ignorar){
+    listaMaterias = new ArrayList<Materia>();
+    listaMaterias.add(new Materia("Matematicas","Carlos Patricio"));
+  }
+  
   public Menu(){
     /*---------------------------------------------
     Se crea una instancia de la clase controlador para
@@ -38,8 +49,8 @@ public class Menu {
     /*------------------------------------
     Se imprime la lista de materias
     -------------------------------------- */
-    for(int i = 0; i<=listaMaterias.size() - 1;i++){
-    System.out.println((i + 1) + listaMaterias.get(i).getNombre());
+    for(int i = 0; i< listaMaterias.size(); i++){
+    System.out.println((i + 1) +".- "+ listaMaterias.get(i).getNombre());
 
     }
 
@@ -53,7 +64,6 @@ public class Menu {
       System.out.print("Selecion: ");
 
       seleccion = this.leerEntero() - 1; // Se resta uno, porque en el menu se listan del 1 en adelante
-
       //Se checa si se eligio la opcion de salir
       if(seleccion == listaMaterias.size()){
         return;
@@ -217,57 +227,52 @@ public class Menu {
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
 
-      /*-------------------------------------
-      Se buscan y imprimen los proyectos
-      ------------------------------------*/    
-      for(int i = 0; i<= actividades.size() - 1 ; i++){
-        if(actividades.get(i) instanceof Proyecto){  
-          System.out.println((i + 1) +".- " + actividades.get(i).getNombre());
+      /*--------------------------------------------
+      Do-while, para poder iterar hasta que se
+      introdusca un valor valido o se decida regresar
+      al menu anterior
+      --------------------------------------------- */
+    do{
+      if(actividades.isEmpty() == false){
+        /*-------------------------------------
+        Se buscan y imprimen los proyectos
+        ------------------------------------*/    
+        for(int i = 0; i < actividades.size(); i++){
+          if(actividades.get(i) instanceof Proyecto){  
+            System.out.println((i + 1) +".- " + actividades.get(i).getNombre());
+          }
         }
-      }
-
+      }else{ System.out.println("No hay Proyectos");}
       System.out.println("50.- Agregar un nuevo proyecto");
       System.out.println("51.- Regresar");
       System.out.print("Seleccion: ");
+    
+      seleccion = this.leerEntero();
+      
+      /*------------------------------------------------------------ 
+      El try es por si acaso se selecciona un indice fuera de la lista
+      --------------------------------------------------------------*/
+      try{
+        /*------------------------------------------------------
+        Se comprueba que el valor devuelto sea distinto de cero
+        y luego se comprueba cual de las opciones fue seleccionada
+        -------------------------------------------------------- */
+        if(seleccion != 0){
 
-      /*--------------------------------------------
-      Do-while, para poder iterar hasta que se
-      introdusca un valor valid
-      --------------------------------------------- */
-      do{
-        seleccion = this.leerEntero();
-        
-        /*------------------------------------------------------------ 
-        El try es por si acaso se selecciona un indice fuera de la lista
-        --------------------------------------------------------------*/
-        try{
-
-          /*------------------------------------------------------
-          Se comprueba que el elemento seleccionado si corresponde
-          al index de un proyecto o es alguna de las opciones dadas
-          -------------------------------------------------------- */
-          seleccion = this.leerEntero();
-          if(seleccion != 0 && (seleccion==50 || seleccion==51)){
-            switch (seleccion) {
-              case 50:
-                //Se le pasa un nuevo objeto del tipo de actividad que se le agregara
-                this.menuAgregarActividad(materia, new Proyecto());
-                break;
-            
-              case 51:
-                return;
-            }//Fin del switch
-
-          }else{
-            if(actividades.get(seleccion) instanceof Proyecto){//Se comprueba que si se selecionara un examne de la lista
-              this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
-            }
+          if(seleccion == 50){ this.menuAgregarActividad(materia, new Proyecto());}
+          if(seleccion == 51){return;}
+          
+          if(actividades.get(seleccion - 1) instanceof Proyecto && seleccion != 50 && seleccion != 51){//Se comprueba que si se selecionara un proyecto de la lista
+            this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
+          
           }
-        }catch(IndexOutOfBoundsException ex){
-          System.out.println("Seleccion no valida");
         }
 
-      }while(true);
+      }catch(IndexOutOfBoundsException ex){
+        System.out.println("Seleccion no valida");
+      }
+
+    }while(true);
   }
 
   //Menu encargado de mostrar la lista de examenes de una materia
@@ -362,6 +367,8 @@ public class Menu {
 
     proyecto.agregarActividad(nuevaTarea);
     sc.close();
+    System.out.println("La tarea fue agregada correctamente");
+    return;
     }catch(InputMismatchException ex){
 
       /*---------------------------------------------------
@@ -373,6 +380,7 @@ public class Menu {
       System.out.println("Cualquier cambio realizado a la tarea antes de este punto se efectuara");
       proyecto.agregarActividad(nuevaTarea);
       sc.close();
+      return;
     }
   }
 
@@ -407,7 +415,8 @@ public class Menu {
 
     materia.agregarActividad(actividad);
     sc.close();
-
+    System.out.println("La actividad fue Agregada correctamente");
+    return;
     }catch(InputMismatchException ex){
       /*---------------------------------------------------
       En caso de una excepcion, se agrega la actividad con
@@ -417,6 +426,7 @@ public class Menu {
       System.out.println("El valor introducido no es correcto, se regresara al menu anterior");
       System.out.println("Cualquier cambio realizado a la actividad antes de este punto se efectuara");
       materia.agregarActividad(actividad);
+      return;
     }
 
   }
@@ -645,6 +655,7 @@ public class Menu {
   poner este try en todos los demas metodos
   --------------------------------------------------------- */
   public int leerEntero(){
+    System.out.println("--------------------------");
     Scanner sc = new Scanner(System.in);
     int entrada;
     /*-------------------------------------------------------
@@ -652,9 +663,8 @@ public class Menu {
     --------------------------------------------------------- */
     try{ 
       entrada = sc.nextInt();
-      sc.close();
       return entrada;
-     }catch(InputMismatchException ex){sc.close(); return 0;}
+     }catch(InputMismatchException ex){return 0;}
   }
 
 }

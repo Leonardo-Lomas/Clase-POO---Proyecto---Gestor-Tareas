@@ -11,12 +11,13 @@ public class Materia implements GestionActividad{
     public Materia(){
         this.nombre = "Sin nombre";
         this.profesor = "Sin profesor";
-        this.listaActividades = new ArrayList<>();
+        this.listaActividades = new ArrayList<Actividad>();
     }
 
     public Materia(String nombre, String profesor){
         this.nombre = nombre;
         this.profesor = profesor;
+        this.listaActividades = new ArrayList<Actividad>();
     }
 
     public double calcularPromedio(){
@@ -25,15 +26,13 @@ public class Materia implements GestionActividad{
 
     // Metodos de "GestionActividad"
     @Override
-    public void eliminarActividad(){
-
-
+    public void eliminarActividad(Actividad actividad){
+        this.listaActividades.remove(actividad);
     }
 
     @Override
-    public void agregarActividad(){
-
-
+    public void agregarActividad(Actividad actividad){
+        this.listaActividades.add(actividad);
     }
 
     //Setters y getters

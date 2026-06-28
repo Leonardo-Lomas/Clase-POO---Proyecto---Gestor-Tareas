@@ -13,10 +13,10 @@ public class Proyecto extends Actividad implements Notificar,GestionActividad{
         this.listaActividades = new ArrayList<>();
     }
 
-    public int calcularCalificacion(){
+    public double calcularCalificacion(){
         double calificacion = 0.0;
-        for (int i=0;i<listaActividades.length;i++){
-          calificacion += listaActividad[i].getCalificacion();
+        for (int i=0;i<listaActividades.size();i++){
+          calificacion += listaActividades.get(i).getCalificacion();
         }
         this.calificacion = calificacion;
         return calificacion;
@@ -28,13 +28,13 @@ public class Proyecto extends Actividad implements Notificar,GestionActividad{
 
     // Metodos de "GestionActividad"
     @Override
-    public void eliminarActividad(){
-
-
+    public void eliminarActividad(Actividad tarea){
+        this.listaActividades.remove(tarea);
     }
 
     @Override
-    public void agregarActividad(){
+    public void agregarActividad(Actividad tarea){
+        this.listaActividades.add(tarea);
     }
 
     // Metodo de Notificar
