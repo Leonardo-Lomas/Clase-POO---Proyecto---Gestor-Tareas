@@ -46,64 +46,77 @@ public class Menu {
     int seleccion;
     System.out.println("Materias");
 
+    do{  
     /*------------------------------------
     Se imprime la lista de materias
     -------------------------------------- */
     for(int i = 0; i< listaMaterias.size(); i++){
     System.out.println((i + 1) +".- "+ listaMaterias.get(i).getNombre());
-
     }
-
-    System.out.println((listaMaterias.size() + 1) + ".- Salir del programa");
+    
+    System.out.print("\n");
+    System.out.println((listaMaterias.size() + 1) + ".- Agregar una Materia");
+    System.out.println((listaMaterias.size() + 2) + ".- Salir del programa");
 
     /*--------------------------------------------
     Do-while, para iterar hasta que se introdusca un
     valor valido
     -----------------------------------------------*/
-    do{  
       System.out.print("Selecion: ");
 
-      seleccion = this.leerEntero() - 1; // Se resta uno, porque en el menu se listan del 1 en adelante
-      //Se checa si se eligio la opcion de salir
-      if(seleccion == listaMaterias.size()){
+      seleccion = this.leerEntero() - 1;
+      
+      
+      if(seleccion != listaMaterias.size()+1 && seleccion != listaMaterias.size()){
+	      try{
+      
+        	this.menuMateria(this.listaMaterias.get(seleccion));
+
+	      }catch(IndexOutOfBoundsException ex){
+	        System.out.println("Seleccion no valida");
+	      }
+	}else{ if(seleccion == listaMaterias.size()){
+      	this.menuAgregarMateria();
+      }else{ if(seleccion == listaMaterias.size() + 1){
+      	
         return;
-      }
-
-      /*-------------------------------------------------------
-      Try, en caso de que no corresponda a un elemento de la lista
-      --------------------------------------------------------- */
-      try{
-
-        this.menuMateria(this.listaMaterias.get(seleccion));
-
-      }catch(IndexOutOfBoundsException ex){
-        System.out.println("Seleccion no valida");
-      }
-
+      }}}
+	/*--------------------------------------------------
+	Este if horrible es para que al regresar a este menu,
+	si el tamaño de el array a cambiado, no se entre a otro if
+	por que el valor de seleccion sigue siendo el mismo
+	---------------------------------------------------*/
+     
+	
     }while(true);
   }
 
   public void menuMateria(Materia materia){
     int seleccion;
 
+    do{  
     //Se imprimen los datos de la materia y el menu de opciones
     System.out.println(materia.getNombre());
-    System.out.println("Profesor: "+ materia.getProfesor());
+    System.out.println("Profesor: "+ materia.getProfesor()+ "\n");
         
     System.out.println("1.- Proyectos");
     System.out.println("2.- Tareas");
     System.out.println("3.- Examenes");
-    System.out.println("4.- Regresar");
+    System.out.println("4.- Editar materia");
+    System.out.println("5.- Eliminar materia");
+    System.out.println("6.- Regresar");
     System.out.print("Seleccion: ");
     /*--------------------------------------------
     Do-while, para iterar hasta que se introdusca un
     valor valido
     -----------------------------------------------*/
-    do{  
 
       seleccion = this.leerEntero();
       //Switch para cada una de las opciones
       switch (seleccion){
+        case 4:
+            this.menuEditarMateria(materia);
+            break;
         case 1:
            this.menuProyectos(materia);
            break;
@@ -113,8 +126,11 @@ public class Menu {
         case 3:
            this.menuExamenes(materia);
            break;
-        case 4:
+        case 5:
+        this.listaMaterias.remove(materia);
           return;
+        case 6:
+        return;
         default:
           System.out.println("Opcion no valida");
           break;
@@ -126,20 +142,22 @@ public class Menu {
   public void menuTareas(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
-
+    
+    do{
+      int contador = 1;
     /*-------------------------------------
     Se buscan y imprimen los examenes de la materia
     ------------------------------------*/    
     for(int i = 0; i<= actividades.size() - 1 ; i++){
       if(actividades.get(i) instanceof Tarea){  
         System.out.println((i + 1) + ".- " + actividades.get(i).getNombre());
+        contador++;
       }
     }
-
+    System.out.print("\n");
     System.out.println("Seleccione una tarea o una opcion de las siguientes");
-    System.out.println("49.- Editar Materia");
-    System.out.println("50.- Agregar una nueva Tarea");
-    System.out.println("51.- Regresar");
+    System.out.println(contador + ".- Agregar una nueva tarea");
+    System.out.println((contador + 1) +".- Regresar");
     System.out.print("Seleccion: ");
     
     /*------------------------------------------------------------ 
@@ -148,49 +166,48 @@ public class Menu {
     valido
     --------------------------------------------------------------*/
     try{
-    do{
       seleccion = this.leerEntero();
 
-      if(seleccion != 0 && (seleccion==50 || seleccion==51 || seleccion == 49)){
-        switch (seleccion) {
-          case 49:
-            this.menuEditarMateria(materia);
-            break;
-          case 50:
-            //Se le pasa un nuevo objeto del tipo de actividad que se le agregara
-            this.menuAgregarActividad(materia, new Tarea());
-            break;
+      if(seleccion != 0 && (seleccion==contador || seleccion==contador + 1)){
         
-          case 51:
-            return;
-        }//Fin del switch
+        if(seleccion == contador){
+          this.menuAgregarActividad(materia, new Tarea());
+        }
+        
+        if(seleccion == contador + 1){
+          return;
+        }
 
       }else{
-        if(actividades.get(seleccion) instanceof Tarea){//Se comprueba que si se selecionara un examne de la lista
+        if(actividades.get(seleccion - 1) instanceof Tarea){//Se comprueba que si se selecionara un examne de la lista
           this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
         }
       }
 
-    }while(true);
     }catch(IndexOutOfBoundsException ex){ System.out.println("Seleccion no valida");}
+    }while(true);
   }
 
   public void menuTareas(Proyecto proyecto){
     ArrayList<Actividad> actividades = proyecto.getListaActividades();
     int seleccion;
-
+    
+    do{
+      int contador = 1;
     /*-------------------------------------
     Se buscan y imprimen los examenes de la materia
     ------------------------------------*/    
     for(int i = 0; i<= actividades.size() - 1 ; i++){
       if(actividades.get(i) instanceof Tarea){  
         System.out.println((i + 1) + ".- " + actividades.get(i).getNombre());
+        contador++;
       }
     }
-
-    System.out.println("Seleccione un examen o una opcion de las siguientes");
-    System.out.println("50.- Agregar una nueva Tarea");
-    System.out.println("51.- Regresar");
+	
+	System.out.print("\n");
+    System.out.println("Seleccione una tarea o una opcion de las siguientes");
+      System.out.println(contador + ".- Agregar una nueva tarea");
+      System.out.println((contador + 1) +".- Regresar");
     System.out.print("Seleccion: ");
     
     /*------------------------------------------------------------ 
@@ -198,41 +215,41 @@ public class Menu {
     y el do-while es para iterar hasta que se introdusca un valor
     valido
     --------------------------------------------------------------*/
-    try{
-    do{
       seleccion = this.leerEntero();
+    try{
 
-      if(seleccion != 0 && (seleccion==50 || seleccion==51)){
-        switch (seleccion) {
-          case 50:
-            //Se le pasa un nuevo objeto del tipo de actividad que se le agregara
-            this.menuAgregarActividad(proyecto, new Tarea());
-            break;
+      if(seleccion != 0 && (seleccion==contador || seleccion==contador + 1)){
         
-          case 51:
-            return;
-        }//Fin del switch
+        if(seleccion == contador){
+          //Se le pasa un nuevo objeto del tipo de actividad que se le agregara
+          this.menuAgregarActividad(proyecto, new Tarea());
+        }
+
+        if(seleccion == contador + 1){
+          return;
+        }
 
       }else{
-        if(actividades.get(seleccion) instanceof Tarea){//Se comprueba que si se selecionara un examne de la lista
+        if(actividades.get(seleccion - 1) instanceof Tarea){//Se comprueba que si se selecionara un examne de la lista
           this.menuActividad(proyecto, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
         }
       }
 
-    }while(true);
     }catch(IndexOutOfBoundsException ex){ System.out.println("Seleccion no valida");}
+    }while(true);
   }
 
   public void menuProyectos(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
-
-      /*--------------------------------------------
-      Do-while, para poder iterar hasta que se
-      introdusca un valor valido o se decida regresar
-      al menu anterior
-      --------------------------------------------- */
+    
+    /*--------------------------------------------
+    Do-while, para poder iterar hasta que se
+    introdusca un valor valido o se decida regresar
+    al menu anterior
+    --------------------------------------------- */
     do{
+      int contador = 1;
       if(actividades.isEmpty() == false){
         /*-------------------------------------
         Se buscan y imprimen los proyectos
@@ -240,11 +257,13 @@ public class Menu {
         for(int i = 0; i < actividades.size(); i++){
           if(actividades.get(i) instanceof Proyecto){  
             System.out.println((i + 1) +".- " + actividades.get(i).getNombre());
+            contador++;
           }
         }
       }else{ System.out.println("No hay Proyectos");}
-      System.out.println("50.- Agregar un nuevo proyecto");
-      System.out.println("51.- Regresar");
+      System.out.print("\n");
+      System.out.println(contador + ".- Agregar un nuevo proyecto");
+      System.out.println((contador + 1) +".- Regresar");
       System.out.print("Seleccion: ");
     
       seleccion = this.leerEntero();
@@ -259,10 +278,10 @@ public class Menu {
         -------------------------------------------------------- */
         if(seleccion != 0){
 
-          if(seleccion == 50){ this.menuAgregarActividad(materia, new Proyecto());}
-          if(seleccion == 51){return;}
+          if(seleccion == contador){ this.menuAgregarActividad(materia, new Proyecto());}
+          if(seleccion == contador + 1){return;}
           
-          if(actividades.get(seleccion - 1) instanceof Proyecto && seleccion != 50 && seleccion != 51){//Se comprueba que si se selecionara un proyecto de la lista
+          if(actividades.get(seleccion - 1) instanceof Proyecto && seleccion != contador && seleccion != contador + 1){//Se comprueba que si se selecionara un proyecto de la lista
             this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
           
           }
@@ -279,19 +298,23 @@ public class Menu {
   public void menuExamenes(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
+    int contador;
 
+    do{
+    contador = 1;
     /*-------------------------------------
     Se buscan y imprimen los examenes de la materia
     ------------------------------------*/    
     for(int i = 0; i<= actividades.size() - 1 ; i++){
       if(actividades.get(i) instanceof Examen){  
         System.out.println((i + 1) + ".- " + actividades.get(i).getNombre());
+        contador++;
       }
     }
-
+	System.out.print("\n");
     System.out.println("Seleccione un examen o una opcion de las siguientes");
-    System.out.println("50.- Agregar un nuevo Examen");
-    System.out.println("51.- Regresar");
+      System.out.println(contador + ".- Agregar un nuevo examen");
+      System.out.println((contador + 1) +".- Regresar");
     System.out.print("Seleccion: ");
     
     /*------------------------------------------------------------ 
@@ -299,34 +322,39 @@ public class Menu {
     y el do-while es para iterar hasta que se introdusca un valor
     valido
     --------------------------------------------------------------*/
-    try{
-    do{
-      seleccion = this.leerEntero();
+    	seleccion = this.leerEntero();
+    	try{
+    		if(seleccion != 0){
 
-      //Se comprueba que la seleccion no sea cero, y se checa si es 50 o 51
-      if(seleccion != 0 && (seleccion==50 || seleccion==51)){
-        switch (seleccion) {
-          case 50:
-            //Se le pasa un nuevo objeto del tipo de actividad que se le agregara
-            this.menuAgregarActividad(materia, new Examen());
-            break;
-        
-          case 51:
-            return;
-        }//Fin del switch
-
-      }else{//Si el valor no fue un 50 o 51
-        if(actividades.get(seleccion) instanceof Examen){//Se comprueba que si se selecionara un examne de la lista
-          this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
-        }
-      }
-
+			if(seleccion == contador){ this.menuAgregarActividad(materia, new Examen());}
+			if(seleccion == contador + 1){return;}
+			  
+			if(actividades.get(seleccion - 1) instanceof Examen && seleccion != contador && seleccion != contador + 1){//Se comprueba que si se selecionara un proyecto de la lista
+			this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
+			}
+		}
+	    }catch(IndexOutOfBoundsException ex){ System.out.println("Seleccion no valida");}
     }while(true);
-    }catch(IndexOutOfBoundsException ex){ System.out.println("Seleccion no valida");}
   }
 
 
-
+	public void menuAgregarMateria(){
+		Scanner sc = new Scanner(System.in);
+		String entrada;
+		Materia nuevaMateria = new Materia();
+		
+		try{
+		System.out.println("Nombre: ");
+		entrada = sc.nextLine();
+		nuevaMateria.setNombre(entrada);
+		System.out.println("Profesor: ");
+		entrada = sc.nextLine();
+		nuevaMateria.setProfesor(entrada);
+		this.listaMaterias.add(nuevaMateria);
+		}catch(InputMismatchException ex){System.out.println("Entrada no valida");}
+		System.out.println("\n");
+		return;
+	}
 
 
 
@@ -366,22 +394,13 @@ public class Menu {
     nuevaTarea.setFechaConclusion(fecha);
 
     proyecto.agregarActividad(nuevaTarea);
-    sc.close();
+    //;
     System.out.println("La tarea fue agregada correctamente");
-    return;
     }catch(InputMismatchException ex){
-
-      /*---------------------------------------------------
-      En caso de una excepcion, se agrega la actividad con
-      los datos que si se hayan agregado hasta ese punto,
-      el resto seran los datos del constructor sin parametros
-      ----------------------------------------------------- */
       System.out.println("El valor introducido no es correcto, se regresara al menu anterior");
-      System.out.println("Cualquier cambio realizado a la tarea antes de este punto se efectuara");
-      proyecto.agregarActividad(nuevaTarea);
-      sc.close();
-      return;
     }
+    System.out.print("\n");
+    return;
   }
 
   public void menuAgregarActividad(Materia materia,Actividad actividad){
@@ -414,7 +433,7 @@ public class Menu {
     actividad.setFechaConclusion(fecha);
 
     materia.agregarActividad(actividad);
-    sc.close();
+    //;
     System.out.println("La actividad fue Agregada correctamente");
     return;
     }catch(InputMismatchException ex){
@@ -426,20 +445,21 @@ public class Menu {
       System.out.println("El valor introducido no es correcto, se regresara al menu anterior");
       System.out.println("Cualquier cambio realizado a la actividad antes de este punto se efectuara");
       materia.agregarActividad(actividad);
-      return;
     }
-
+	System.out.print("\n");
+      return;
   }
 
   public void menuActividad(Materia materia,Actividad actividad){
     int seleccion;
+    do{
 
     System.out.println(actividad.getNombre());
     System.out.println(actividad.getDescripcion());
     System.out.println(actividad.getFechaConclusion());
     System.out.println(actividad.getCalificacion());
     System.out.println(actividad.getEstado()+"\n");
-      
+     
     /*-------------------------------------------------------
     Este if comprueba si la actividad es un proyecto, y en caso
     de que lo sea, se imprime un menu distinto y tambien las tareas
@@ -449,9 +469,9 @@ public class Menu {
 
       System.out.println("actividades del proyecto: ");
       for(int i = 0; i < ((Proyecto) actividad).getListaActividades().size(); i++){
-        System.out.println(((Proyecto) actividad).getListaActividades().get(i));
+        System.out.println(((Proyecto) actividad).getListaActividades().get(i).getNombre());
       }
-
+	System.out.print("\n");
       System.out.println("1.- Marcar como terminada");
       System.out.println("2.- Editar");
       System.out.println("3.- Eliminar");
@@ -459,6 +479,7 @@ public class Menu {
       System.out.println("5.- Regresar");
       System.out.print("Seleccion: ");
     }else{
+    	System.out.print("\n");
       System.out.println("1.- Marcar como terminada");
       System.out.println("2.- Editar");
       System.out.println("3.- Eliminar");
@@ -466,7 +487,6 @@ public class Menu {
       System.out.print("Seleccion: ");
     }
 
-    do{
       seleccion = this.leerEntero();
 
       if(actividad instanceof Proyecto){
@@ -479,7 +499,7 @@ public class Menu {
             break;
           case 3:
             materia.eliminarActividad(actividad);
-            break;
+            return;
           case 4:
             this.menuTareas((Proyecto)actividad);
             break;
@@ -500,7 +520,7 @@ public class Menu {
             break;
           case 3:
             materia.eliminarActividad(actividad);
-            break;
+            return;
           case 4:
             return;
           default:
@@ -510,8 +530,8 @@ public class Menu {
 
       }
 
-    }while(true);
 
+    }while(true);
   }
 
 
@@ -520,19 +540,20 @@ public class Menu {
   public void menuActividad(Proyecto proyecto,Actividad actividad){
     int seleccion;
 
+    do{
     System.out.println(actividad.getNombre());
     System.out.println(actividad.getDescripcion());
     System.out.println(actividad.getFechaConclusion());
     System.out.println(actividad.getCalificacion());
     System.out.println(actividad.getEstado()+"\n");
 
+	System.out.print("\n");
     System.out.println("1.- Marcar como terminada");
     System.out.println("2.- Editar");
     System.out.println("3.- Eliminar");
     System.out.println("4.- Regresar");
     System.out.print("Seleccion: ");
 
-    do{
       seleccion = this.leerEntero();
 
       switch (seleccion) {
@@ -544,7 +565,7 @@ public class Menu {
           break;
         case 3:
           proyecto.eliminarActividad(actividad);
-          break;
+          return;
         case 4:
           return;
         }
@@ -558,26 +579,31 @@ public class Menu {
     Scanner sc = new Scanner(System.in);
     String entrada;
 
-    System.out.println("1.- " + materia.getNombre());
-    System.out.println("2.- " + materia.getProfesor());
+    do{
+    System.out.println("Nombre: " + materia.getNombre());
+    System.out.println("Profesor: " + materia.getProfesor());
+    System.out.print("\n");
+
+    System.out.println("1.- Editar nombre");
+    System.out.println("2.- Editar profesor");
     System.out.println("3.- Salir");
 
-    do{
       seleccion = this.leerEntero();
 
       try{
       if(seleccion == 1){
+      	System.out.print("Nuevo nombre: ");
         entrada = sc.nextLine();
         materia.setNombre(entrada);
       }
 
       if(seleccion == 2){
+      	System.out.print("Nuevo profesor: ");
         entrada = sc.nextLine();
         materia.setProfesor(entrada);
       }
 
       if(seleccion == 3){
-        sc.close();
         return;
       }
 
@@ -593,15 +619,20 @@ public class Menu {
     String entrada;
     Scanner sc = new Scanner(System.in);
 
-    System.out.println("1.- " + actividad.getNombre());
-    System.out.println("2.- " + actividad.getDescripcion());
-    System.out.println("3.- " + actividad.getFechaConclusion());
-    System.out.println("4.- " + actividad.getCalificacion());
+    do{
+    System.out.println("Nombre: " + actividad.getNombre());
+    System.out.println("Descripcion: " + actividad.getDescripcion());
+    System.out.println("Fecha: " + actividad.getFechaConclusion());
+    System.out.println("Calificacion: " + actividad.getCalificacion());
+	System.out.print("\n");
 
+    System.out.println("1.- Editar Nombre");
+    System.out.println("2.- Editar descripcion");
+    System.out.println("3.- Editar fecha");
+    System.out.println("4.- Editar calificacion");
     System.out.println("5.- Regresar");
     System.out.print("Seleccion: ");
 
-    do{
       seleccion = this.leerEntero();
 
       /*------------------------------------------------
@@ -612,11 +643,13 @@ public class Menu {
       -------------------------------------------------- */
       try{
         if(seleccion == 1){
+        	System.out.print("Nuevo nombre: ");
           entrada = sc.nextLine();
           actividad.setNombre(entrada);
         }
 
         if(seleccion == 2){
+        	System.out.print("Nueva descripcion: ");
           entrada = sc.nextLine();
           actividad.setDescripcion(entrada);
         }
@@ -636,12 +669,12 @@ public class Menu {
         }
 
         if(seleccion == 4){
+        	System.out.print("Ingrese calificacion: ");
           califInput = sc.nextDouble();
           actividad.setCalificacion(califInput);
         }
 
         if(seleccion == 5){
-          sc.close();
           return;
         }
 
@@ -658,13 +691,14 @@ public class Menu {
     System.out.println("--------------------------");
     Scanner sc = new Scanner(System.in);
     int entrada;
+    entrada = 0;
     /*-------------------------------------------------------
     Try, en caso de que la entrada no sea un entero o que
     --------------------------------------------------------- */
     try{ 
       entrada = sc.nextInt();
-      return entrada;
-     }catch(InputMismatchException ex){return 0;}
+     }catch(InputMismatchException ex){System.out.println("Input no valido");}
+     return entrada;
   }
 
 }
