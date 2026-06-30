@@ -1,3 +1,0 @@
-materia1;Canul Jose Arevano;1;null
-materia2;pepito;2;null
-materia3;juanito;3;null

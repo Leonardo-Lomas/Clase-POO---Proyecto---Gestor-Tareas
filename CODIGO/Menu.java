@@ -8,6 +8,7 @@ public class Menu {
   //atributos por pensar si aplica en este caso...
   private ArrayList<Materia> listaMaterias;
   private ControladorArchivos controladorArchivos;
+  private Scanner sc;
   //metodos...
   
   /*------------------------------------------------
@@ -16,6 +17,7 @@ public class Menu {
   eliminado despues
   --------------------------------------------------- */
   public Menu(int ignorar){
+    sc = new Scanner(System.in);
     listaMaterias = new ArrayList<Materia>();
     listaMaterias.add(new Materia("Matematicas","Carlos Patricio"));
   }
@@ -62,7 +64,6 @@ public class Menu {
     -----------------------------------------------*/
     do{  
       System.out.print("Selecion: ");
-
       seleccion = this.leerEntero() - 1; // Se resta uno, porque en el menu se listan del 1 en adelante
       //Se checa si se eligio la opcion de salir
       if(seleccion == listaMaterias.size()){
@@ -226,7 +227,7 @@ public class Menu {
   public void menuProyectos(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
-
+    int i = 0;
       /*--------------------------------------------
       Do-while, para poder iterar hasta que se
       introdusca un valor valido o se decida regresar
@@ -237,14 +238,14 @@ public class Menu {
         /*-------------------------------------
         Se buscan y imprimen los proyectos
         ------------------------------------*/    
-        for(int i = 0; i < actividades.size(); i++){
+        for(; i < actividades.size(); i++){
           if(actividades.get(i) instanceof Proyecto){  
             System.out.println((i + 1) +".- " + actividades.get(i).getNombre());
           }
         }
       }else{ System.out.println("No hay Proyectos");}
-      System.out.println("50.- Agregar un nuevo proyecto");
-      System.out.println("51.- Regresar");
+      System.out.println((i+1) + ".- Agregar un nuevo proyecto");
+      System.out.println((i+2) + ".- Regresar");
       System.out.print("Seleccion: ");
     
       seleccion = this.leerEntero();
@@ -259,8 +260,8 @@ public class Menu {
         -------------------------------------------------------- */
         if(seleccion != 0){
 
-          if(seleccion == 50){ this.menuAgregarActividad(materia, new Proyecto());}
-          if(seleccion == 51){return;}
+          if(seleccion == i+1){ this.menuAgregarActividad(materia, new Proyecto());}
+          if(seleccion == i+2){return;}
           
           if(actividades.get(seleccion - 1) instanceof Proyecto && seleccion != 50 && seleccion != 51){//Se comprueba que si se selecionara un proyecto de la lista
             this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
@@ -656,13 +657,13 @@ public class Menu {
   --------------------------------------------------------- */
   public int leerEntero(){
     System.out.println("--------------------------");
-    Scanner sc = new Scanner(System.in);
     int entrada;
     /*-------------------------------------------------------
     Try, en caso de que la entrada no sea un entero o que
     --------------------------------------------------------- */
     try{ 
-      entrada = sc.nextInt();
+      sc.skip("\n");
+      entrada = this.sc.nextInt();
       return entrada;
      }catch(InputMismatchException ex){return 0;}
   }

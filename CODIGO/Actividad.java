@@ -11,6 +11,7 @@ public abstract class Actividad {
         this.descripcion = descripcion;
         this.fechaConclusion = fechaConclusion;
         this.estado = false;
+        //this.calificacion = -1.0;
     }
 
     public Actividad(){

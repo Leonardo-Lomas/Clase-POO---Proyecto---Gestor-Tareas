@@ -1,6 +1,6 @@
 import java.util.ArrayList;
-
-public class Materia implements GestionActividad{
+import java.io.Serializable;
+public class Materia implements GestionActividad, Serializable{
     private String nombre;
     private String profesor;
     private ArrayList<Actividad> listaActividades;
@@ -19,7 +19,13 @@ public class Materia implements GestionActividad{
         this.profesor = profesor;
         this.listaActividades = new ArrayList<Actividad>();
     }
-
+    
+    public Materia(String nombre, String profesor, ArrayList<Actividad> listaActividades){
+        this.nombre = nombre;
+        this.profesor = profesor;
+        this.listaActividades = listaActividades;
+    }
+    
     public double calcularPromedio(){
         return 0;
     }

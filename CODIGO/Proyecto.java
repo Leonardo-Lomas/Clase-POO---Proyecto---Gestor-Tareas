@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
-public class Proyecto extends Actividad implements Notificar,GestionActividad{
+import java.io.Serializable;
+public class Proyecto extends Actividad implements Notificar,GestionActividad,Serializable{
     private ArrayList<Actividad> listaActividades;
 
     public Proyecto(){

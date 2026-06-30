@@ -1,49 +1,59 @@
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.nio.file.*;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.lang.Exception.*;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.lang.ClassNotFoundException;
+import java.io.EOFException;
 
 public class ControladorArchivos {
-  //atributos veremos si hay alguno por definir.
-  private int iterador = 0;
-  private String archivoMaterias = "listaMaterias.txt";
-  private String archivoTareas = "listaActividades.txt";
-  private String archivoProyectos = "listaProyectos.txt";
-  //metodos
+  
+  //valor hardcodeado
+  private String archivoMaterias = "listaMaterias";
+  
+  //metodos para hacer las operaciones.
+  
+  //metodo para leer las materias.
+  @SuppressWarnings("unchecked")
   public ArrayList<Materia> leerMaterias(){
-    ArrayList<Materia> listaMaterias = new ArrayList<>();
+    //bloque try para atrapar las excepciones.
     try {
-      Path path = FileSystems.getDefault().getPath(this.archivoMaterias);
-      BufferedReader br = Files.newBufferedReader(path);
-      String linea;
-      while ((linea = br.readLine()) != null){
-        String nombre = crearObjeto(linea);
-        String profesor = crearObjeto(linea);
-        Materia aux = new Materia(nombre,profesor);
-        listaMaterias.add(aux); 
-        this.iterador = 0;
-      }
-      br.close();
-      return listaMaterias;
+      
+      FileInputStream fis = new FileInputStream(archivoMaterias);
+      ObjectInputStream os = new ObjectInputStream(fis);
+      
+      ArrayList<Materia> materiaAux = (ArrayList<Materia>) os.readObject();
+      
+      return materiaAux;
+      //cosas para debugiar despues si hay errores.
+    } catch (EOFException ex){
+      System.out.println(ex.getMessage());
+      
+    } catch (ClassNotFoundException ex){
+      System.out.println(ex.getMessage());
+    
+    } catch (IOException ex){
+      System.out.println(ex.getMessage());
+    
+    } 
+    ArrayList<Materia> aux = new ArrayList<>();
+    return aux;
+  }
+  @SuppressWarnings("unchecked")
+  public void escribirMaterias(ArrayList<Materia> listaMaterias){
+    try {
+      FileOutputStream fos = new FileOutputStream(archivoMaterias);
+      ObjectOutputStream ois = new ObjectOutputStream(fos);
+      
+      ois.writeObject(listaMaterias);
+      
+    } catch(IOException ex){
+      System.out.println(ex.getMessage());
     }
-    catch(IOException ex){
-      System.out.println(ex.getCause());
-      System.out.println("No valido.");
-    }
-    return listaMaterias; 
   }
   
   
-  
-  public String crearObjeto(String w){
-    String resul = "";
-    int y = this.iterador;
-    for (;w.charAt(y) != ';';y++){
-      resul += w.charAt(y);
-    }
-    this.iterador = y+1;
-    return resul;
-  }
 }

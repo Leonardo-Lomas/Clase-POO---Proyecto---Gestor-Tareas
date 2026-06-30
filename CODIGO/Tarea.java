@@ -1,5 +1,6 @@
 import java.time.LocalDate;
-public class Tarea extends Actividad implements Notificar{
+import java.io.Serializable;
+public class Tarea extends Actividad implements Notificar, Serializable{
     
     public Tarea(){
         super();
