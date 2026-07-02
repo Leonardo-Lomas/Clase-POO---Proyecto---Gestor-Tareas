@@ -2,7 +2,10 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.lang.IndexOutOfBoundsException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+
+
 
 public class Menu {
   //atributos por pensar si aplica en este caso...
@@ -27,8 +30,9 @@ public class Menu {
     Se crea una instancia de la clase controlador para
     obtener la lista de materias
     ------------------------------------------------ */
-    ControladorArchivos ca = new ControladorArchivos();
-    listaMaterias = ca.leerMaterias();
+    sc = new Scanner(System.in);
+    controladorArchivos = new ControladorArchivos();
+    listaMaterias = controladorArchivos.leerMaterias();
   }
 
 
@@ -46,34 +50,33 @@ public class Menu {
 
   public void principal(){
     int seleccion;
-    System.out.println("Materias");
-
+    
     do{  
+      
+      System.out.println("\nEscoga la opcion de su conveniencia (#numerica)\n");
     /*------------------------------------
     Se imprime la lista de materias
     -------------------------------------- */
-    for(int i = 0; i< listaMaterias.size(); i++){
-    System.out.println((i + 1) +".- "+ listaMaterias.get(i).getNombre());
+    if (listaMaterias.size() != 0){
+      System.out.println("Materias disponibles:\n");
+      for(int i = 0; i < listaMaterias.size(); i++){
+        System.out.println((i + 1) +".- "+ listaMaterias.get(i).getNombre());
+      }
+    } else {
+      System.out.println("No hay materias disponibles para mostrar, pruebe a agregar materias");
     }
-    
-    System.out.print("\n");
+    System.out.println("\nOpciones\n");
     System.out.println((listaMaterias.size() + 1) + ".- Agregar una Materia");
     System.out.println((listaMaterias.size() + 2) + ".- Salir del programa");
 
     /*--------------------------------------------
-    Do-while, para iterar hasta que se introdusca un
+    Do-while, para iterar hasta que se introduzca un
     valor valido
     -----------------------------------------------*/
       System.out.print("Selecion: ");
-<<<<<<< HEAD
-      seleccion = this.leerEntero() - 1; // Se resta uno, porque en el menu se listan del 1 en adelante
-      //Se checa si se eligio la opcion de salir
-      if(seleccion == listaMaterias.size()){
-=======
 
       seleccion = this.leerEntero() - 1;
-      
-      
+
       if(seleccion != listaMaterias.size()+1 && seleccion != listaMaterias.size()){
 	      try{
       
@@ -82,13 +85,14 @@ public class Menu {
 	      }catch(IndexOutOfBoundsException ex){
 	        System.out.println("Seleccion no valida");
 	      }
-	}else{ if(seleccion == listaMaterias.size()){
+
+	    }else if(seleccion == listaMaterias.size()){
       	this.menuAgregarMateria();
-      }else{ if(seleccion == listaMaterias.size() + 1){
-      	
->>>>>>> 5f29a8c6f3683907092ab057ec9c461f7c8a1d38
+
+      }else if(seleccion == listaMaterias.size() + 1){
+      	this.menuSalir();
         return;
-      }}}
+      }
 	/*--------------------------------------------------
 	Este if horrible es para que al regresar a este menu,
 	si el tamaño de el array a cambiado, no se entre a otro if
@@ -103,17 +107,18 @@ public class Menu {
     int seleccion;
 
     do{  
-    //Se imprimen los datos de la materia y el menu de opciones
-    System.out.println(materia.getNombre());
-    System.out.println("Profesor: "+ materia.getProfesor()+ "\n");
-        
-    System.out.println("1.- Proyectos");
-    System.out.println("2.- Tareas");
-    System.out.println("3.- Examenes");
-    System.out.println("4.- Editar materia");
-    System.out.println("5.- Eliminar materia");
-    System.out.println("6.- Regresar");
-    System.out.print("Seleccion: ");
+      
+      //Se imprimen los datos de la materia y el menu de opciones
+      System.out.println("\nMateria: "+ materia.getNombre());
+      System.out.println("Profesor: "+ materia.getProfesor()+ "\n");
+
+      System.out.println("1.- Proyectos");
+      System.out.println("2.- Tareas");
+      System.out.println("3.- Examenes");
+      System.out.println("4.- Editar materia");
+      System.out.println("5.- Eliminar materia");
+      System.out.println("6.- Regresar");
+      System.out.print("Seleccion: ");
     /*--------------------------------------------
     Do-while, para iterar hasta que se introdusca un
     valor valido
@@ -250,42 +255,42 @@ public class Menu {
   public void menuProyectos(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
-<<<<<<< HEAD
-    int i = 0;
-      /*--------------------------------------------
-      Do-while, para poder iterar hasta que se
-      introdusca un valor valido o se decida regresar
-      al menu anterior
-      --------------------------------------------- */
-=======
     
     /*--------------------------------------------
     Do-while, para poder iterar hasta que se
     introdusca un valor valido o se decida regresar
     al menu anterior
     --------------------------------------------- */
->>>>>>> 5f29a8c6f3683907092ab057ec9c461f7c8a1d38
     do{
+      
+      
       int contador = 1;
+
+      System.out.println("\nMateria: "+ materia.getNombre());
+      System.out.println("Profesor: "+ materia.getProfesor()+ "\n");
+
       if(actividades.isEmpty() == false){
         /*-------------------------------------
         Se buscan y imprimen los proyectos
         ------------------------------------*/    
-        for(; i < actividades.size(); i++){
+        System.out.println("Proyectos\n");
+        for(int i=0; i < actividades.size(); i++){
           if(actividades.get(i) instanceof Proyecto){  
-            System.out.println((i + 1) +".- " + actividades.get(i).getNombre());
+            System.out.print((i + 1) +".- " + actividades.get(i).getNombre());
+            if (actividades.get(i).getEstado()==true){
+              System.out.println(" : La tarea ha sido completada");
+            } else {
+              System.out.print("- La tarea no ha sido completada");
+            }
             contador++;
+            System.out.println();
           }
         }
-      }else{ System.out.println("No hay Proyectos");}
-<<<<<<< HEAD
-      System.out.println((i+1) + ".- Agregar un nuevo proyecto");
-      System.out.println((i+2) + ".- Regresar");
-=======
-      System.out.print("\n");
+      }else{ System.out.println("No hay Proyectos que mostrar, pruebe a añadir proyectos");}
+
+      System.out.println("\nOpciones\n");
       System.out.println(contador + ".- Agregar un nuevo proyecto");
       System.out.println((contador + 1) +".- Regresar");
->>>>>>> 5f29a8c6f3683907092ab057ec9c461f7c8a1d38
       System.out.print("Seleccion: ");
     
       seleccion = this.leerEntero();
@@ -300,13 +305,13 @@ public class Menu {
         -------------------------------------------------------- */
         if(seleccion != 0){
 
-<<<<<<< HEAD
-          if(seleccion == i+1){ this.menuAgregarActividad(materia, new Proyecto());}
-          if(seleccion == i+2){return;}
-=======
-          if(seleccion == contador){ this.menuAgregarActividad(materia, new Proyecto());}
-          if(seleccion == contador + 1){return;}
->>>>>>> 5f29a8c6f3683907092ab057ec9c461f7c8a1d38
+          if(seleccion == contador){ 
+            this.menuAgregarActividad(materia, new Proyecto());
+          }
+          
+          if(seleccion == contador + 1){
+            return;
+          }
           
           if(actividades.get(seleccion - 1) instanceof Proyecto && seleccion != contador && seleccion != contador + 1){//Se comprueba que si se selecionara un proyecto de la lista
             this.menuActividad(materia, actividades.get(seleccion - 1)); // Se le resta uno porque en la lista se imprimen de 1 en adelante
@@ -366,15 +371,20 @@ public class Menu {
 
 
 	public void menuAgregarMateria(){
-		Scanner sc = new Scanner(System.in);
+		sc.skip("\n");
 		String entrada;
 		Materia nuevaMateria = new Materia();
 		
+    
+    
+
+    System.out.println("\nMenu para agregar materias\n\nsiga las instrucciones que aparecen en la pantalla\n");
+
 		try{
-		System.out.println("Nombre: ");
+		System.out.print("Ingrese el nombre de la materia: ");
 		entrada = sc.nextLine();
 		nuevaMateria.setNombre(entrada);
-		System.out.println("Profesor: ");
+		System.out.print("Ingrese el nombre del profesor: ");
 		entrada = sc.nextLine();
 		nuevaMateria.setProfesor(entrada);
 		this.listaMaterias.add(nuevaMateria);
@@ -399,70 +409,74 @@ public class Menu {
     String
     ------------------------------------------------- */
     try{
-    System.out.print("Nombre de la tarea: ");
-    entrada = sc.nextLine();
-    nuevaTarea.setNombre(entrada);
+      System.out.print("Nombre de la tarea: ");
+      entrada = sc.nextLine();
+      nuevaTarea.setNombre(entrada);
 
-    System.out.print("Descripcion: ");
-    entrada = sc.nextLine();
-    nuevaTarea.setDescripcion(entrada);
+      System.out.print("Descripcion: ");
+      entrada = sc.nextLine();
+      nuevaTarea.setDescripcion(entrada);
 
-    System.out.println("Fecha de conclusion");
-    System.out.println("Año: ");
-    año = sc.nextInt();
+      System.out.println("Fecha de conclusion");
+      System.out.println("Año: ");
+      año = sc.nextInt();
 
-    System.out.println("Mes: ");
-    mes = sc.nextInt();
+      System.out.println("Mes: ");
+      mes = sc.nextInt();
 
-    System.out.println("Dia: ");
-    dia = sc.nextInt();
+      System.out.println("Dia: ");
+      dia = sc.nextInt();
 
-    fecha = LocalDate.of(año, mes, dia);
-    nuevaTarea.setFechaConclusion(fecha);
+      fecha = LocalDate.of(año, mes, dia);
+      nuevaTarea.setFechaConclusion(fecha);
 
-    proyecto.agregarActividad(nuevaTarea);
-    //;
-    System.out.println("La tarea fue agregada correctamente");
+      proyecto.agregarActividad(nuevaTarea);
+      
+      System.out.println("La tarea fue agregada correctamente");
     }catch(InputMismatchException ex){
       System.out.println("El valor introducido no es correcto, se regresara al menu anterior");
+    }catch(DateTimeException ex){
+      System.out.println("La fecha introducida no es valida, se regresara al menu anterior");
     }
     System.out.print("\n");
     return;
   }
 
-  public void menuAgregarActividad(Materia materia,Actividad actividad){
+  public void menuAgregarActividad(Materia materia, Actividad actividad){
     
     try{
-    LocalDate fecha;
-    Scanner sc = new Scanner(System.in);
-    String entrada;
-    int dia,mes,año;
-    
-    System.out.print("Nombre: ");
-    entrada = sc.nextLine();
-    actividad.setNombre(entrada);
+      LocalDate fecha;
+      //Scanner sc = new Scanner(System.in);
+      String entrada;
+      int dia,mes,año;
+      
+      sc.skip("\n");
 
-    System.out.print("Descripcion: ");
-    entrada = sc.nextLine();
-    actividad.setDescripcion(entrada);
+      System.out.print("Introduzca el nombre: ");
+      entrada = sc.nextLine();
+      actividad.setNombre(entrada);
 
-    System.out.println("Fecha de conclusion");
-    System.out.println("Año: ");
-    año = sc.nextInt();
+      System.out.print("Introduzca la descripcion: ");
+      entrada = sc.nextLine();
+      actividad.setDescripcion(entrada);
 
-    System.out.println("Mes: ");
-    mes = sc.nextInt();
+      System.out.println("Introduzca la fecha de conclusion en formato YYYY-MM-DD");
+      System.out.print("Año: ");
+      año = sc.nextInt();
 
-    System.out.println("Dia: ");
-    dia = sc.nextInt();
+      System.out.print("Mes: ");
+      mes = sc.nextInt();
 
-    fecha = LocalDate.of(año, mes, dia);
-    actividad.setFechaConclusion(fecha);
+      System.out.print("Dia: ");
+      dia = sc.nextInt();
 
-    materia.agregarActividad(actividad);
-    //;
-    System.out.println("La actividad fue Agregada correctamente");
-    return;
+      fecha = LocalDate.of(año, mes, dia);
+      actividad.setFechaConclusion(fecha);
+
+      materia.agregarActividad(actividad);
+      //;
+      System.out.println("La actividad fue Agregada correctamente");
+      return;
     }catch(InputMismatchException ex){
       /*---------------------------------------------------
       En caso de una excepcion, se agrega la actividad con
@@ -479,13 +493,18 @@ public class Menu {
 
   public void menuActividad(Materia materia,Actividad actividad){
     int seleccion;
+    System.out.println();
     do{
 
-    System.out.println(actividad.getNombre());
-    System.out.println(actividad.getDescripcion());
-    System.out.println(actividad.getFechaConclusion());
-    System.out.println(actividad.getCalificacion());
-    System.out.println(actividad.getEstado()+"\n");
+    System.out.println("Nombre: " + actividad.getNombre());
+    System.out.println("Descripcion: " + actividad.getDescripcion());
+    System.out.println("Fecha de conclusion: " + actividad.getFechaConclusion());
+    
+    if (actividad.getCalificacion() != 0.0){ 
+      System.out.println(actividad.getCalificacion());
+    } else {
+      System.out.println("La actividad aun no esta calificada");
+    }
      
     /*-------------------------------------------------------
     Este if comprueba si la actividad es un proyecto, y en caso
@@ -495,10 +514,16 @@ public class Menu {
     if(actividad instanceof Proyecto){
 
       System.out.println("actividades del proyecto: ");
-      for(int i = 0; i < ((Proyecto) actividad).getListaActividades().size(); i++){
-        System.out.println(((Proyecto) actividad).getListaActividades().get(i).getNombre());
+      if(((Proyecto) actividad).getListaActividades().size() != 0){
+        
+        for(int i = 0; i < ((Proyecto) actividad).getListaActividades().size(); i++){
+          System.out.println(((Proyecto) actividad).getListaActividades().get(i).getNombre());
+        }
+
+      } else {
+        System.out.println("No hay actividades que mostrar en este proyecto, pruebe a agregar un par de actividades");
       }
-	System.out.print("\n");
+	    System.out.print("\n");
       System.out.println("1.- Marcar como terminada");
       System.out.println("2.- Editar");
       System.out.println("3.- Eliminar");
@@ -714,24 +739,27 @@ public class Menu {
   Metodo para leer enteros desde la terminal, asi me ahorro
   poner este try en todos los demas metodos
   --------------------------------------------------------- */
+
+  /**
+   * 
+   * 
+   * @return Entero que representa lo obtenido por terminal.
+   */
+
   public int leerEntero(){
-    System.out.println("--------------------------");
     int entrada;
     entrada = 0;
     /*-------------------------------------------------------
     Try, en caso de que la entrada no sea un entero o que
     --------------------------------------------------------- */
     try{ 
-<<<<<<< HEAD
-      sc.skip("\n");
-      entrada = this.sc.nextInt();
-      return entrada;
-     }catch(InputMismatchException ex){return 0;}
-=======
       entrada = sc.nextInt();
-     }catch(InputMismatchException ex){System.out.println("Input no valido");}
+     }catch(InputMismatchException ex){
+      System.out.println("Input no valido");
+    }
      return entrada;
->>>>>>> 5f29a8c6f3683907092ab057ec9c461f7c8a1d38
   }
-
+  public void menuSalir(){
+    this.controladorArchivos.escribirMaterias(listaMaterias);
+  }
 }

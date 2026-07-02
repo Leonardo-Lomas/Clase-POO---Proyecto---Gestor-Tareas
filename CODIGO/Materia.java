@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 import java.io.Serializable;
+
+/**
+ * 
+ * Materia Clase, representa las materias del sistema.
+ */
+
 public class Materia implements GestionActividad, Serializable{
     private String nombre;
     private String profesor;
@@ -8,26 +14,38 @@ public class Materia implements GestionActividad, Serializable{
     private double promedio;
 
     //Constructores
+
+    /**
+     * Inicializacion vacia de la instancia.
+     */
     public Materia(){
         this.nombre = "Sin nombre";
         this.profesor = "Sin profesor";
         this.listaActividades = new ArrayList<Actividad>();
     }
 
+    /**
+     * Inicializar los valores de la instancia.
+     * 
+     * @param nombre nombre de la materia
+     * @param profesor nombre del profesor de la materia
+     */
     public Materia(String nombre, String profesor){
         this.nombre = nombre;
         this.profesor = profesor;
         this.listaActividades = new ArrayList<Actividad>();
     }
     
+    /**
+     * Inicializar los valores de la instancia.
+     * @param nombre nombre de la materia
+     * @param profesor nombre del profesor de la materia
+     * @param listaActividades lista de las actividades de la materia.
+     */
     public Materia(String nombre, String profesor, ArrayList<Actividad> listaActividades){
         this.nombre = nombre;
         this.profesor = profesor;
         this.listaActividades = listaActividades;
-    }
-    
-    public double calcularPromedio(){
-        return 0;
     }
 
     // Metodos de "GestionActividad"

@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.lang.Exception.*;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -9,14 +7,26 @@ import java.io.FileInputStream;
 import java.lang.ClassNotFoundException;
 import java.io.EOFException;
 
+/**
+ * 
+ * Manipula los datos de los archivos, I/O Archivos.
+ * 
+ * @see Menu
+ */
+
 public class ControladorArchivos {
-  
+
   //valor hardcodeado
-  private String archivoMaterias = "listaMaterias";
+  private String archivoMaterias = "listaMateriasYActividades";
   
   //metodos para hacer las operaciones.
   
   //metodo para leer las materias.
+  /**
+   * Metodo que lee de un archivo origen los datos a mostrar en el menu.
+   * @return Lista de las materias con sus actividades leidas del archivo origen.
+   */
+  
   @SuppressWarnings("unchecked")
   public ArrayList<Materia> leerMaterias(){
     //bloque try para atrapar las excepciones.
@@ -42,6 +52,12 @@ public class ControladorArchivos {
     ArrayList<Materia> aux = new ArrayList<>();
     return aux;
   }
+
+  /**
+   * Metodo que escribe en el archivo origen la nueva lista de materias con sus actividades que se obtiene del menu
+   * @param listaMaterias lista de las materias con sus actividades a escribir en el archivo origen.
+   */
+
   @SuppressWarnings("unchecked")
   public void escribirMaterias(ArrayList<Materia> listaMaterias){
     try {

@@ -1,3 +1,5 @@
 ### archivos del dot class
 *.class
 *.drawio
+*.html
+*.js

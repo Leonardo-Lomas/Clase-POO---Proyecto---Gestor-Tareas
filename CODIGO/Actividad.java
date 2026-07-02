@@ -1,11 +1,44 @@
 import java.time.LocalDate;
-public abstract class Actividad {
+import java.io.Serializable;
+/**
+ * 
+ * Actividad
+ * 
+ * Clase abstracta, representa una actividad (Examen, Tarea, Proyecto).
+ * 
+ * @see Proyecto
+ * @see Tarea
+ * @see Examen
+ */
+
+public abstract class Actividad implements Serializable{
+    /**
+     * Nombre de la actividad.
+     */
     protected String nombre;
+    /**
+     * Descripcion de la actividad.
+     */
     protected String descripcion;
+   /**
+    * Estado de la actividad, completado o no.
+    */
     protected boolean estado;
+    /**
+     * Fecha de cierre de la actividad.
+     */
     protected LocalDate fechaConclusion;
+    /**
+     * Calificacion de la actividad.
+     */
     protected double calificacion;
 
+    /**
+     * 
+     * @param nombre nombre de la actividad.
+     * @param descripcion descripcion de la actividad.
+     * @param fechaConclusion fecha de cierre de la actividad.
+     */
     public Actividad(String nombre,String descripcion,LocalDate fechaConclusion){
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -14,6 +47,9 @@ public abstract class Actividad {
         //this.calificacion = -1.0;
     }
 
+    /**
+     * Constructor vacio.
+     */
     public Actividad(){
         this.nombre = "Sin nombre";
         this.descripcion = "Sin descripcion";
