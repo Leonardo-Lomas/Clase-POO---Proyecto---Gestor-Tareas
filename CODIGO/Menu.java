@@ -418,15 +418,36 @@ public class Menu {
       nuevaTarea.setDescripcion(entrada);
 
       System.out.println("Fecha de conclusion");
-      System.out.println("Año: ");
+      	
+	do{
+	
+	System.out.println("Año: ");
       año = sc.nextInt();
 
-      System.out.println("Mes: ");
+	if(año < 2026 || año > 2070){System.out.println("Año no valido");
+	}else{break;}
+
+	}while(true);
+      
+	do{	
+
+	System.out.println("Mes: ");
       mes = sc.nextInt();
+	
+	if(mes<1 || mes>12){System.out.println("Mes no valido");
+	}else{break;}
+
+	}while(true);
+
+	do{	
 
       System.out.println("Dia: ");
       dia = sc.nextInt();
 
+	if(dia < 1 || dia > 31){System.out.println("El dia no es valido");
+	}else{break;}
+
+	}while(true);
       fecha = LocalDate.of(año, mes, dia);
       nuevaTarea.setFechaConclusion(fecha);
 
@@ -461,14 +482,35 @@ public class Menu {
       actividad.setDescripcion(entrada);
 
       System.out.println("Introduzca la fecha de conclusion en formato YYYY-MM-DD");
-      System.out.print("Año: ");
+     do{
+	
+	System.out.println("Año: ");
       año = sc.nextInt();
 
-      System.out.print("Mes: ");
-      mes = sc.nextInt();
+	if(año < 2026 || año > 2070){System.out.println("Año no valido");
+	}else{break;}
 
-      System.out.print("Dia: ");
+	}while(true);
+      
+	do{	
+
+	System.out.println("Mes: ");
+      mes = sc.nextInt();
+	
+	if(mes<1 || mes>12){System.out.println("Mes no valido");
+	}else{break;}
+
+	}while(true);
+
+	do{	
+
+      System.out.println("Dia: ");
       dia = sc.nextInt();
+
+	if(dia < 1 || dia > 31){System.out.println("El dia no es valido");
+	}else{break;}
+
+	}while(true);
 
       fecha = LocalDate.of(año, mes, dia);
       actividad.setFechaConclusion(fecha);
