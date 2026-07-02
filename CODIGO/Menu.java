@@ -5,7 +5,10 @@ import java.lang.IndexOutOfBoundsException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-
+/**
+ * 
+ * Menu Clase, menus a usar en el sistema junto con funcionalidades propias.
+ */
 
 public class Menu {
   //atributos por pensar si aplica en este caso...
@@ -13,17 +16,6 @@ public class Menu {
   private ControladorArchivos controladorArchivos;
   private Scanner sc;
   //metodos...
-  
-  /*------------------------------------------------
-  Este constructor es solamente para hardcodear Materias
-  y actividades, solo esta aqui para hacer pruebas, y sera
-  eliminado despues
-  --------------------------------------------------- */
-  public Menu(int ignorar){
-    sc = new Scanner(System.in);
-    listaMaterias = new ArrayList<Materia>();
-    listaMaterias.add(new Materia("Matematicas","Carlos Patricio"));
-  }
   
   public Menu(){
     /*---------------------------------------------
@@ -47,7 +39,9 @@ public class Menu {
   para aceptar argumentos de tipo Materia y tipo Proyecto
   ------------------------------------------------------------------------------------------ */
 
-
+  /**
+   * Menu principal a mostrar al usuario.
+   */
   public void principal(){
     int seleccion;
     
@@ -102,7 +96,10 @@ public class Menu {
 	
     }while(true);
   }
-
+  /**
+   * Metodo usado para mostrar el menu principal de cada Materia.
+   * @param materia
+   */
   public void menuMateria(Materia materia){
     int seleccion;
 
@@ -152,6 +149,10 @@ public class Menu {
   }
 
   //Menu encargado de mostrar la lista de examenes de una materia
+  /**
+   * Metodo para lanzar las Tareas asociadas a una materia.
+   * @param materia Materia de la cual se mostraran las actividades.
+   */
   public void menuTareas(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
@@ -200,7 +201,10 @@ public class Menu {
     }catch(IndexOutOfBoundsException ex){ System.out.println("Seleccion no valida");}
     }while(true);
   }
-
+  /**
+   * Metodo usado para mostrar las actividades de un proyecto seleccionado.
+   * @param proyecto Proyecto del cual se mostraran las actividades asociadas.
+   */
   public void menuTareas(Proyecto proyecto){
     ArrayList<Actividad> actividades = proyecto.getListaActividades();
     int seleccion;
@@ -208,7 +212,7 @@ public class Menu {
     do{
       int contador = 1;
     /*-------------------------------------
-    Se buscan y imprimen los examenes de la materia
+    Se buscan y imprimen las actividades del proyecto.
     ------------------------------------*/    
     for(int i = 0; i<= actividades.size() - 1 ; i++){
       if(actividades.get(i) instanceof Tarea){  
@@ -251,7 +255,11 @@ public class Menu {
     }catch(IndexOutOfBoundsException ex){ System.out.println("Seleccion no valida");}
     }while(true);
   }
-
+  
+  /**
+   * Metodo usado para lanzar los proyectos asociados a la materia.
+   * @param materia
+   */
   public void menuProyectos(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
     int seleccion;
@@ -326,6 +334,11 @@ public class Menu {
     }while(true);
   }
 
+  /**
+   * Metodo usado mostrar los examenes asociados a una materia.
+   * @param materia materia de la cual se extraen los examenes a mostrar.
+   */
+
   //Menu encargado de mostrar la lista de examenes de una materia
   public void menuExamenes(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
@@ -369,7 +382,9 @@ public class Menu {
     }while(true);
   }
 
-
+  /**
+   * Metodo usado para agregar materias nuevas con sus respectivos atributos.
+   */
 	public void menuAgregarMateria(){
 		sc.skip("\n");
 		String entrada;
@@ -394,7 +409,11 @@ public class Menu {
 	}
 
 
-
+  /**
+   * Metodo usado para agregar actividades a un proyecto seleccionado.
+   * @param proyecto Proyecto seleccionado al cual anexar una actividad.
+   * @param nuevaTarea Tarea a agregar al proyecto.
+   */
   public void menuAgregarActividad(Proyecto proyecto, Tarea nuevaTarea){
 
     // Se inicializan las variables que se utilizaran
@@ -463,6 +482,12 @@ public class Menu {
     return;
   }
 
+  /**
+   * 
+   * Metodo para agregar actividades a la materia seleccionada.
+   * @param materia Materia seleccionada a la cual agregar la Actividad
+   * @param actividad actividad a agregar al proyecto.
+   */
   public void menuAgregarActividad(Materia materia, Actividad actividad){
     
     try{
@@ -532,7 +557,12 @@ public class Menu {
 	System.out.print("\n");
       return;
   }
-
+  /**
+   * Metodo para mostrar el menu con las opciones de la actividad asociada a la materia
+   * 
+   * @param materia Materia de la cual se obtienen las actividades.
+   * @param actividad Actividad seleccionada a mostrar y posiblemente editar.
+   */
   public void menuActividad(Materia materia,Actividad actividad){
     int seleccion;
     System.out.println();
@@ -629,7 +659,12 @@ public class Menu {
   }
 
 
-
+  /**
+   * Metodo para lanzar el menu de la actividad asociada a un proyecto seleccionado.
+   * 
+   * @param proyecto Proyecto del cual se obtuvo la actividad.
+   * @param actividad Actividad del proyecto seleccionado.
+   */
 
   public void menuActividad(Proyecto proyecto,Actividad actividad){
     int seleccion;
@@ -667,7 +702,10 @@ public class Menu {
     }while(true);
 
   }
-
+  /**
+   * Metodo para editar individualmente cada materia.
+   * @param materia Materia a editar sus atributos, a excepcion de su lista de actividades.
+   */
   public void menuEditarMateria(Materia materia){
     int seleccion;
     Scanner sc = new Scanner(System.in);
@@ -705,7 +743,10 @@ public class Menu {
     }while(true);
   }
 
-
+  /**
+   * Metodo usado para editar los atributos de la actividad.
+   * @param actividad Actividad a editar sus atributos.
+   */
   public void menuEditarActividad(Actividad actividad){
     int seleccion,dia,mes,año;
     double califInput;
@@ -783,7 +824,7 @@ public class Menu {
   --------------------------------------------------------- */
 
   /**
-   * 
+   * Funcion para leer los datos numericos introducidos por el usuario.
    * 
    * @return Entero que representa lo obtenido por terminal.
    */
@@ -801,6 +842,10 @@ public class Menu {
     }
      return entrada;
   }
+  /**
+   * Metodo para poder guardar todos los cambios hechos en el archivo origen.
+   * 
+   */
   public void menuSalir(){
     this.controladorArchivos.escribirMaterias(listaMaterias);
   }
