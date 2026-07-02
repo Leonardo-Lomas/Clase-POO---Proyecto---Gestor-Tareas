@@ -98,7 +98,7 @@ public class Menu {
   }
   /**
    * Metodo usado para mostrar el menu principal de cada Materia.
-   * @param materia
+   * @param materia La materia de la cual se esta desplegando el menu
    */
   public void menuMateria(Materia materia){
     int seleccion;
@@ -258,7 +258,7 @@ public class Menu {
   
   /**
    * Metodo usado para lanzar los proyectos asociados a la materia.
-   * @param materia
+   * @param materia Materia a la cual pertenecen los proyectos mostrados
    */
   public void menuProyectos(Materia materia){
     ArrayList<Actividad> actividades = materia.getListaActividades();
@@ -412,7 +412,7 @@ public class Menu {
   /**
    * Metodo usado para agregar actividades a un proyecto seleccionado.
    * @param proyecto Proyecto seleccionado al cual anexar una actividad.
-   * @param nuevaTarea Tarea a agregar al proyecto.
+   * @param nuevaTarea Nueva instancia de tipo Tarea a la que se le modificaran los atributos para luego ser agregada a el Proyecto
    */
   public void menuAgregarActividad(Proyecto proyecto, Tarea nuevaTarea){
 
@@ -443,7 +443,7 @@ public class Menu {
 	System.out.println("Año: ");
       año = sc.nextInt();
 
-	if(año < 2026 || año > 2070){System.out.println("Año no valido");
+	if(año < 2026 || año > 9999){System.out.println("Año no valido");
 	}else{break;}
 
 	}while(true);
@@ -486,7 +486,7 @@ public class Menu {
    * 
    * Metodo para agregar actividades a la materia seleccionada.
    * @param materia Materia seleccionada a la cual agregar la Actividad
-   * @param actividad actividad a agregar al proyecto.
+   * @param actividad Nueva instancia de tipo Actividad a la que se le modificaran los atributos para luego ser agregada a la Materia
    */
   public void menuAgregarActividad(Materia materia, Actividad actividad){
     
@@ -512,7 +512,7 @@ public class Menu {
 	System.out.println("Año: ");
       año = sc.nextInt();
 
-	if(año < 2026 || año > 2070){System.out.println("Año no valido");
+	if(año < 2026 || año > 9999){System.out.println("Año no valido");
 	}else{break;}
 
 	}while(true);
